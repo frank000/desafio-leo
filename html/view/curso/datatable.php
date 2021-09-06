@@ -38,7 +38,12 @@ if(isset($_GET['ativo']))
             foreach ($curso->getByAll(['status' => $ativo]) as $i => $obj):?>
                 <tr class="<?= ($i % 2  == 0 ) ? 'bg-gray-100' : ''?>" >
                     <td class="border px-4 py-2">
-                        <img width="50wv" src="./imagens/<?=  $obj->imagem ?>">
+                        <section class="item brochure">
+                            <div class="Enlarge">
+                                <img width="50wv" src="./imagens/<?=  $obj->imagem ?>">
+                                <div class="expandedImage"><img width="200px" src="./imagens/<?=  $obj->imagem ?>"></div>
+                            </div>
+                        </section>
                     </td>
                     <td class="border px-4 py-2">
                         <?=  $obj->nome ?>
@@ -64,3 +69,42 @@ if(isset($_GET['ativo']))
         </div>
     </div>
 </div>
+<style>
+    .Enlarge {
+        position:relative;
+
+        overflow:visible;
+    }
+    .Enlarge .expandedImage {
+        position:fixed;
+        display:none;
+        white-space:nowrap;
+
+        width:600px;
+        height:300px;
+        z-index:10000;
+        pointer-events:none;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        $('.Enlarge').mouseenter(function(){
+            $(this).find('.expandedImage').show();
+            var container = $(this);
+            var containerOffset = container.offset();
+            var largeImage = container.find('.expandedImage');
+            $(container).on('mousemove.imageFollow', function(event){
+                var left = event.pageX - containerOffset.left + 5;
+                var top = event.pageY - containerOffset.top  + 5;
+                if(event.clientX + largeImage.width() + 5 >= $(window).width())
+                    left = $(window).width() - largeImage.width() - containerOffset.left -2;
+                if(event.clientY + largeImage.height() + 5 >= $(window).height())
+                    top = $(window).height() - largeImage.height() - containerOffset.top -2;
+                largeImage.css('left', left).css('top', top);
+            });
+        }).mouseleave(function(){
+            $(this).off('mousemove.imageFollow');
+            $(this).closest('.Enlarge').find('.expandedImage').hide();
+        });
+    });
+</script>

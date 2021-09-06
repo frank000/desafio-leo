@@ -11,7 +11,10 @@ spl_autoload_register(function ($className) {
     <meta http-equiv="Content-Type" content="text/html" charset=utf-8" />
     <title>Desafio-leo</title>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <?php if(isset($_GET['result']) && $_GET['result'] == 'fail'):?>
