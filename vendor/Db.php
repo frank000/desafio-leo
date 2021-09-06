@@ -1,5 +1,5 @@
 <?php
-
+namespace Vendor;
 class Db
 {
     private $pdo;

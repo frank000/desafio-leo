@@ -6,11 +6,13 @@
 </head>
 <body>
 <?php
+
 spl_autoload_register(function ($className) {
     $extension =  spl_autoload_extensions();
-    require_once (__DIR__ . '/../vendor/' . $className . '.php');
+    require_once (__DIR__ . '/Vendor/' . $className . '.php');
 }
 );
+
 $db = Db::getInstace();
 var_dump($db);
 ?>
