@@ -4,7 +4,8 @@ if(isset($_REQUEST['acao']) && !empty($_REQUEST['acao']))
 {
     $curso = isset($_POST['curso']) ? $_POST['curso'] : [];
     $obj = new Curso();
-    switch ($_REQUEST['acao'])
+    $data = $obj->getById($_REQUEST['id']);
+    switch ($_POST['acao'])
     {
         case 'salvar':
             if(!$obj->save($curso))
@@ -17,10 +18,28 @@ if(isset($_REQUEST['acao']) && !empty($_REQUEST['acao']))
             }
             break;
         case 'editar':
-            $data = $obj->getById($_REQUEST['id']);
+            if(!$obj->editar($curso))
+            {
+                Utils::redirect(false);
+            }
+            else
+            {
+                Utils::redirect(true);
+            }
             break;
         default:
 
+    }
+    if($_REQUEST['acao'] == 'deletar')
+    {
+        if(!$obj->deletar($_REQUEST['id']))
+        {
+            Utils::redirect(false);
+        }
+        else
+        {
+            Utils::redirect(true);
+        }
     }
 
 }

@@ -49,24 +49,8 @@ abstract class ModelAbstract
         if(count($data) == 0)
             return false;
 
-        $keys = array_keys($data);
-        $values = '';
-        $valuesIdentificadores = '';
-        foreach ($keys as $i => $key)
-        {
-            if(!empty($data[$key]))
-            {
-                if($i != 0)
-                    $values .= ', ';
+        list($values, $valuesIdentificadores, $data) = $this->montaParametros($data);
 
-                $values .= $key;
-
-                if($i != 0)
-                    $valuesIdentificadores .= ', ';
-                $valuesIdentificadores .= ' :' . $key . '';
-            }
-
-        }
         if(empty($values) || empty($valuesIdentificadores))
            return false;
 
@@ -77,4 +61,86 @@ abstract class ModelAbstract
 
         return ($stmt->rowCount()) ? true: false;
     }
+
+    public function editar($data = [])
+    {
+        if(count($data) == 0 || !isset($data['id']) || empty($data['id']) )
+            return false;
+
+        $id = $data['id'];
+        list($values, $data) = $this->montaParametrosEdit($data);
+
+        if(empty($values))
+            return false;
+
+        $stmt = $this->db->prepare('UPDATE ' . strtolower($this->class) . ' SET ' . $values.
+            " WHERE id = {$id}");
+
+        $stmt->execute($data);
+
+        return ($stmt->rowCount()) ? true: false;
+    }
+
+    public function deletar($id = [])
+    {
+        if(empty($id))
+            return false;
+
+        $stmt = $this->db->prepare('UPDATE ' . strtolower($this->class) . " SET status = 'I'".
+            " WHERE id = {$id}");
+
+        $stmt->execute();
+
+        return ($stmt->rowCount()) ? true: false;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    protected function montaParametros($data)
+    {
+        $keys = array_keys($data);
+        $values = '';
+        $valuesIdentificadores = '';
+        foreach ($keys as $i => $key) {
+            if (!empty($data[$key])) {
+                if ($i != 0)
+                    $values .= ', ';
+
+                $values .= $key;
+
+                if ($i != 0)
+                    $valuesIdentificadores .= ', ';
+                $valuesIdentificadores .= ' :' . $key . '';
+            }
+
+        }
+        return array($values, $valuesIdentificadores, $data);
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    protected function montaParametrosEdit($data)
+    {
+        unset($data['id']);
+        $keys = array_keys($data);
+        $values = '';
+        $valuesIdentificadores = '';
+        foreach ($keys as $i => $key) {
+            if (!empty($data[$key])) {
+                if ($i != 0)
+                    $values .= ', ';
+
+                $values .= $key . ' = :' . $key ;
+
+
+            }
+
+        }
+        return array($values, $data);
+    }
+
 }

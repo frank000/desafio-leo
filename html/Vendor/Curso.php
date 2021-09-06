@@ -5,6 +5,8 @@ class Curso extends ModelAbstract
 
     protected $class = 'Curso';
 
+    private $id;
+
     private $nome;
 
     private $descricao;
@@ -25,6 +27,24 @@ class Curso extends ModelAbstract
     {
         parent::__construct();
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Curso
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
