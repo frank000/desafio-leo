@@ -6,15 +6,15 @@ Desenvolvedor: Franklim Araújo Paulino (franklim.ti@gmail.com)
 O repóstóprio atual serve apenas para demonstração de capacidade técnica.
 Muitas necessidades para um sistema real não foram levadas em conta devido ao tempo e ao esforço demandado,
 uma vez que o desafio exigia o não uso de frameworks. Funcionalidades como:
-    # Segurança:
-        - Contra ataques XSS: Validações de Entrada de Formulario, Filtragem de inputs a serem salvo e escape de Saída de dados
-        - Contra ataques CSRF: Token randomico e unico de valiação de formulário, Sessão
-        - Contra Session Fixation: Gerenciador de Sessão com validação e regenerate de ID de sessão
-        - Gerenciador de Exceptions e Error: set_exception_handler() e set_erro_handler()
-        - Configuração no .INI que evitam include script por URL, inserção de ID de sessão por URL entre outros indispensáveis a segurança.
-    # Modulos
-        - A modulação do sistema foi "fracamente" baseada em frameworks recentes e sem muita implementação de Padrões de Design,
-            A não ser o Singletn usado para PDO, Controller para gerenciamento de requisições, AbsctractModel para um gerenciador generico
+# Segurança:
+- Contra ataques XSS: Validações de Entrada de Formulario, Filtragem de inputs a serem salvo e escape de Saída de dados
+- Contra ataques CSRF: Token randomico e unico de valiação de formulário, Sessão
+- Contra Session Fixation: Gerenciador de Sessão com validação e regenerate de ID de sessão
+- Gerenciador de Exceptions e Error: set_exception_handler() e set_erro_handler()
+- Configuração no .INI que evitam include script por URL, inserção de ID de sessão por URL entre outros indispensáveis a segurança.
+# Modulos
+- A modulação do sistema foi "fracamente" baseada em frameworks recentes e sem muita implementação de Padrões de Design,
+    a não ser o Singleton usado para PDO, Controller para gerenciamento de requisições, AbsctractModel para um gerenciador generico
 de dados a ser extendido por todos as Entidades/Classe
 
 
