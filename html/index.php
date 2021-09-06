@@ -6,7 +6,7 @@
 </head>
 <body>
 <?php
-
+phpinfo();
 spl_autoload_register(function ($className) {
     $extension =  spl_autoload_extensions();
     require_once (__DIR__ . '/Vendor/' . $className . '.php');
@@ -16,5 +16,8 @@ spl_autoload_register(function ($className) {
 $db = Db::getInstace();
 var_dump($db);
 ?>
+
+
+
 </body>
 </html>
