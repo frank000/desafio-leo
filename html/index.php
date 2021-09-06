@@ -1,3 +1,10 @@
+<?php
+spl_autoload_register(function ($className) {
+    $extension =  spl_autoload_extensions();
+    require_once (__DIR__ . '/Vendor/' . $className . '.php');
+}
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,18 +13,13 @@
 </head>
 <body>
 <?php
-phpinfo();
-spl_autoload_register(function ($className) {
-    $extension =  spl_autoload_extensions();
-    require_once (__DIR__ . '/Vendor/' . $className . '.php');
-}
-);
 
-$db = Db::getInstace();
-var_dump($db);
+$curso = new Curso();
+//print_r($curso->getById(1));
+print_r($curso->getByAll(['status' => Curso::INATIVO]));
 ?>
 
-
+<a href="/cadastrar.php">Cadastrar Curso</a>
 
 </body>
 </html>
