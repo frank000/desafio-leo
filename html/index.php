@@ -14,15 +14,8 @@ spl_autoload_register(function ($className) {
 
 </head>
 <body>
-<?php
+<?php include __DIR__ . '/view/curso/datatable.php'?>
 
-$curso = new Curso();
-foreach ($curso->getByAll() as $obj):
-?>
-    <p><?=  $obj->nome ?></p>
-<?endforeach ?>
-<a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-   href="/cadastrar.php">Cadastrar Curso</a>
 
 </body>
 </html>

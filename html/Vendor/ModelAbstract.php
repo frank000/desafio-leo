@@ -43,4 +43,38 @@ abstract class ModelAbstract
     {
         return '';
     }
+
+    public function save($data = [])
+    {
+        if(count($data) == 0)
+            return false;
+
+        $keys = array_keys($data);
+        $values = '';
+        $valuesIdentificadores = '';
+        foreach ($keys as $i => $key)
+        {
+            if(!empty($data[$key]))
+            {
+                if($i != 0)
+                    $values .= ', ';
+
+                $values .= $key;
+
+                if($i != 0)
+                    $valuesIdentificadores .= ', ';
+                $valuesIdentificadores .= ' :' . $key . '';
+            }
+
+        }
+        if(empty($values) || empty($valuesIdentificadores))
+           return false;
+
+        $stmt = $this->db->prepare('INSERT INTO ' . strtolower($this->class) .  "($values)".
+            " VALUES({$valuesIdentificadores})");
+
+        $stmt->execute($data);
+
+        return ($stmt->rowCount()) ? true: false;
+    }
 }

@@ -24,6 +24,7 @@ class Curso extends ModelAbstract
     public function __construct()
     {
         parent::__construct();
+
     }
 
     /**
@@ -103,7 +104,8 @@ class Curso extends ModelAbstract
      */
     public function getInicio()
     {
-        return $this->inicio;
+        $date = date_create( $this->inicio);
+        return date_format($date, 'Y-m-d');
     }
 
     /**
@@ -121,7 +123,8 @@ class Curso extends ModelAbstract
      */
     public function getFim()
     {
-        return $this->fim;
+        $date = date_create( $this->fim);
+        return date_format($date, 'Y-m-d');
     }
 
     /**
