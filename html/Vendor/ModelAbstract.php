@@ -7,6 +7,7 @@ abstract class ModelAbstract
 
     const ATIVO = 'A';
 
+    const DIR_IMG = './imagens/';
     /**
      * @var PDO
      */
@@ -44,15 +45,19 @@ abstract class ModelAbstract
         return '';
     }
 
-    public function save($data = [])
+    public function save($data = [], $file = nulll)
     {
         if(count($data) == 0)
             return false;
+
+        //salva arquivo
+        $this->handleFile($file, $data);
 
         list($values, $valuesIdentificadores, $data) = $this->montaParametros($data);
 
         if(empty($values) || empty($valuesIdentificadores))
            return false;
+
 
         $stmt = $this->db->prepare('INSERT INTO ' . strtolower($this->class) .  "($values)".
             " VALUES({$valuesIdentificadores})");
@@ -62,12 +67,25 @@ abstract class ModelAbstract
         return ($stmt->rowCount()) ? true: false;
     }
 
-    public function editar($data = [])
+    public function editar($data = [], $file = null)
     {
         if(count($data) == 0 || !isset($data['id']) || empty($data['id']) )
             return false;
 
+        //salva arquivo
+        $this->handleFile($file, $data);
         $id = $data['id'];
+
+        if(!is_null($file) && !empty($file['name']))
+        {
+            $fileParaExcluir = $this->getById($id)->getImagem();
+
+            if(!is_null($fileParaExcluir) && file_exists(self::DIR_IMG.$fileParaExcluir))
+            {
+                unlink(self::DIR_IMG.$fileParaExcluir);
+            }
+        }
+
         list($values, $data) = $this->montaParametrosEdit($data);
 
         if(empty($values))
@@ -98,7 +116,7 @@ abstract class ModelAbstract
      * @param $data
      * @return array
      */
-    protected function montaParametros($data)
+    protected function montaParametros(&$data)
     {
         $keys = array_keys($data);
         $values = '';
@@ -114,6 +132,10 @@ abstract class ModelAbstract
                     $valuesIdentificadores .= ', ';
                 $valuesIdentificadores .= ' :' . $key . '';
             }
+            else
+            {
+                unset($data[$key]);//retiro o node vazio
+            }
 
         }
         return array($values, $valuesIdentificadores, $data);
@@ -123,7 +145,7 @@ abstract class ModelAbstract
      * @param $data
      * @return array
      */
-    protected function montaParametrosEdit($data)
+    protected function montaParametrosEdit(&$data)
     {
         unset($data['id']);
         $keys = array_keys($data);
@@ -138,9 +160,31 @@ abstract class ModelAbstract
 
 
             }
+            else
+            {
+                unset($data[$key]);//retiro o node vazio
+            }
 
         }
         return array($values, $data);
+    }
+
+    /**
+     * @param $file
+     * @param $data
+     * @return mixed
+     */
+    protected function handleFile($file, &$data)
+    {
+        if (!is_null($file)) {
+            $ext = strtolower(substr($file['name'], -4)); //Pegando extensão do arquivo
+            $new_name = date("Y.m.d-H.i.s")  . $ext; //Definindo um novo nome para o arquivo
+
+            $result = move_uploaded_file($file['tmp_name'], self::DIR_IMG . $new_name); //Fazer upload do arquivo
+            if ($result)
+                $data['imagem'] = $new_name;
+
+        }
     }
 
 }

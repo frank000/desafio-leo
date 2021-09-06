@@ -24,6 +24,7 @@ if(isset($_GET['ativo']))
         <table class="table-auto jus">
             <thead>
             <tr>
+                <th class="px-4 py-2">Imagem</th>
                 <th class="px-4 py-2">Nome</th>
                 <th class="px-4 py-2">Descrição</th>
                 <th class="px-4 py-2">Ações</th>
@@ -36,7 +37,12 @@ if(isset($_GET['ativo']))
 
             foreach ($curso->getByAll(['status' => $ativo]) as $i => $obj):?>
                 <tr class="<?= ($i % 2  == 0 ) ? 'bg-gray-100' : ''?>" >
-                    <td class="border px-4 py-2"><?=  $obj->nome ?></td>
+                    <td class="border px-4 py-2">
+                        <img width="50wv" src="./imagens/<?=  $obj->imagem ?>">
+                    </td>
+                    <td class="border px-4 py-2">
+                        <?=  $obj->nome ?>
+                    </td>
                     <td class="border px-4 py-2"><?=  $obj->descricao ?></td>
                     <td class="border px-4 py-2 text-pink-700">
                         <a href="/cadastrar.php?acao=editar&id=<?=  $obj->id ?>">Editar</a>
