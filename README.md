@@ -43,3 +43,5 @@ de dados a ser extendido por todos as Entidades/Classe
   - dbname phprs
   - user root
   - PW phprs
+- Para o sistema rodar corretamente o script.sql, que está na pasta root da aplicação deve ser executada no banco ou em 
+linha de comando ou por meio de um SGDB.
